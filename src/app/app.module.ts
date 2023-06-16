@@ -1,7 +1,9 @@
+import { AdminModule } from './admin/admin.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+// modules
 import { AppRoutingModule } from './app-routing.module';
+// components
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -10,7 +12,8 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AdminModule
   ],
   providers: [],
   bootstrap: [AppComponent]
