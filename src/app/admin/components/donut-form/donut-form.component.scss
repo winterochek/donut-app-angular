@@ -1,0 +1,18 @@
+.donut-form{
+    &-radios{
+        display: flex;
+        align-items: center;
+        label{
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
+            span{
+                color: #444;
+                margin-bottom: 0;
+            }
+        }
+        &-label{
+            margin-right: 10px;
+        }
+    }
+}
