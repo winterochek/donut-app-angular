@@ -1,3 +1,11 @@
-<div>
-  <app-donut-card *ngFor="let donut of donuts" [donut]="donut"></app-donut-card>
-</div>
+<ng-container *ngIf="donuts.length; then data; else nothing"></ng-container>
+<ng-template #data>
+  <app-donut-card
+    [ngClass]="{ promo: donut.promo, odd: odd }"
+    *ngFor="let donut of donuts; trackBy: trackById; odd as odd"
+    [donut]="donut"
+  />
+</ng-template>
+<ng-template #nothing>
+  <h2>There are no donuts available</h2>
+</ng-template>

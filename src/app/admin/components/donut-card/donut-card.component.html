@@ -6,8 +6,17 @@
 <div>
   <p class="donut-card-name">
     {{ donut.name }}
+    <ng-container [ngSwitch]="donut.promo">
+      <span *ngSwitchCase="'new'" class="donut-card-label new"
+        >{{ donut.promo | uppercase }}
+      </span>
+      <span *ngSwitchCase="'limited'" class="donut-card-label limited"
+        >{{ donut.promo | uppercase }}
+      </span>
+      <!-- just for reference: ngswitch use -->
+    </ng-container>
   </p>
   <p class="donut-card-price">
-    {{ donut.price }}
+    {{ donut.price / 100 | currency : "EUR" }}
   </p>
 </div>
