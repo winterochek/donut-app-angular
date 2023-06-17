@@ -1,18 +1,35 @@
-.donut-form{
-    &-radios{
+.donut-form {
+    &-radios {
         display: flex;
         align-items: center;
-        label{
+
+        label {
             display: flex;
             align-items: center;
             margin-bottom: 0;
-            span{
+
+            span {
                 color: #444;
                 margin-bottom: 0;
             }
         }
-        &-label{
+
+        &-label {
             margin-right: 10px;
         }
     }
+
+    &-working {
+        font-size: 12px;
+        font-style: italic;
+        margin: 10px 0;
+    }
+
+    &-error {
+        font-size: 12px;
+        color: #e66262;
+
+    }
 }
+
+// error styles are described in styles.scss globally
