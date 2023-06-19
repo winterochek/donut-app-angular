@@ -1,4 +1,4 @@
-<form class="donut-form" #form="ngForm" (ngSubmit)="handleSubmit(form)">
+<form class="donut-form" #form="ngForm">
   <label>
     <span>Name</span>
     <input
@@ -94,7 +94,25 @@
       </p>
     </ng-container>
   </label>
-  <button type="submit" class="btn btn--green">Create</button>
+  <button type="button" class="btn btn--green" (click)="handleCreate(form)">
+    Create
+  </button>
+  <button
+    type="button"
+    class="btn btn--green"
+    [disabled]="form.untouched"
+    (click)="handleUpdate(form)"
+  >
+    Update
+  </button>
+  <button
+    [routerLink]="['/']"
+    type="button"
+    class="btn btn--green"
+    (click)="handleDelete()"
+  >
+    Delete
+  </button>
   <button type="button" class="btn btn--grey" (click)="form.resetForm(donut)">
     Reset
   </button>

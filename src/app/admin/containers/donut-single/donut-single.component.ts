@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Donut } from '../../models';
+import { DonutService } from '../../services/donut.service';
 
 @Component({
   selector: 'app-donut-single',
@@ -7,22 +8,28 @@ import { Donut } from '../../models';
   styleUrls: ['./donut-single.component.scss']
 })
 export class DonutSingleComponent implements OnInit {
-  donut!: Donut
+  donut!: Donut;
+  id = '3';
+  emptyDonut: Donut = {
+    name: '',
+    description: '',
+    icon: '',
+    price: 0
+  }
 
-  constructor() { }
+  constructor(private donutService: DonutService) { }
 
   ngOnInit() {
-    this.donut = {
-      id: '3',
-      name: 'Sour Supreme',
-      icon: 'sour-supreme',
-      price: 119,
-      promo: 'new',
-      description: 'For the sour advocate.'
-    }
+    this.donut = this.donutService.getOneById('1') || this.emptyDonut
   }
-  onCreate(donut: Donut) {
-    console.log('New donut', donut);
+  onCreate(donut: Donut): void {
+    this.donutService.create(donut);
+  }
+  onUpdate(donut: Donut): void {
+    this.donutService.update(donut)
+  }
 
+  onDelete(id:string):void {
+    this.donutService.delete(id)
   }
 }

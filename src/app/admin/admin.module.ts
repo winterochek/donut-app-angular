@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DonutListComponent, DonutSingleComponent } from './containers';
 import { DonutCardComponent, DonutFormComponent } from './components';
 import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from '../app-routing.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   exports: [
     DonutListComponent,

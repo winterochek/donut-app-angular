@@ -17,17 +17,32 @@ export class DonutFormComponent {
     'vanilla-sundae',
     'zesty-lemon'
   ]
-  @Input() donut!:Donut
-  @Output() create = new EventEmitter<Donut>()
+  @Input() donut!: Donut
+  @Output() create = new EventEmitter<Donut>();
+  @Output() update = new EventEmitter<Donut>();
+  @Output() delete = new EventEmitter<string>()
 
-  constructor(){ }
+  constructor() { }
 
-  handleSubmit(form: NgForm): void {
+  handleCreate(form: NgForm): void {
     const { valid: isValid, form: formRef, value } = form;
     if (!isValid) {
       formRef.markAllAsTouched()
       return
     }
     this.create.emit(value)
+  }
+
+  handleUpdate(form: NgForm): void {
+    const { valid: isValid, form: formRef, value } = form;
+    if (!isValid) {
+      formRef.markAllAsTouched()
+      return
+    }
+    this.update.emit({ id: this.donut.id, ...value });
+  }
+
+  handleDelete(): void {
+    this.delete.emit(this.donut.id || '')
   }
 }
