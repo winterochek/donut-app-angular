@@ -3,8 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { DonutListComponent, DonutSingleComponent } from './admin/containers';
 
 const routes: Routes = [
-  { path: '', component: DonutListComponent },
-  { path: 'single', component: DonutSingleComponent }
+  {
+    path: 'admin', children: [
+      { path: '', component: DonutListComponent },
+      { path: 'donut', component: DonutSingleComponent }
+    ]
+  },
+  { path: '', redirectTo: 'admin', pathMatch: 'full' },
+  { path: '**', redirectTo: 'admin' }
+
 ];
 
 @NgModule({
@@ -12,3 +19,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+

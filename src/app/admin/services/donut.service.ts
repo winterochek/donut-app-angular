@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Donut } from '../models';
-import { HttpClient } from '@angular/common/http';
-import { Observable, map, of, tap } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpRequest } from '@angular/common/http';
+import { Observable, catchError, delay, map, of, retryWhen, take, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +12,13 @@ export class DonutService {
 
   getAll(): Observable<Donut[]> {
     if (this.donuts.length) return of(this.donuts)
+
     return this.http
       .get<Donut[]>(`http://localhost:3000/donuts`)
       .pipe(
-        tap(donuts => this.donuts = donuts)
+        tap(donuts => this.donuts = donuts),
+        retryWhen((errors) => errors.pipe(delay(500), take(2))),
+        catchError(this.handleError)
       )
   }
 
@@ -28,17 +31,43 @@ export class DonutService {
     )
   }
 
-  create(donut: Donut): void {
-    const id = this.donuts.length;
-    donut.id = String(id);
-    this.donuts.push(donut);
+  create(payload: Donut) {
+    return this.http
+      .post<Donut>(`http://localhost:3000/donuts`, payload, {})
+      .pipe(
+        tap(created => this.donuts.push(created)),
+        catchError(this.handleError)
+      )
   }
 
-  update(donut: Donut): void {
-    this.donuts = this.donuts.map(item => item.id === donut.id ? donut : item);
+  update(payload: Donut) {
+    return this.http
+      .put<Donut>(`http://localhost:3000/donuts/${payload.id}`, payload)
+      .pipe(
+        tap(updated => this.donuts = this.donuts.map(item => item.id === updated.id ? updated : item)),
+        catchError(this.handleError)
+      )
   }
 
-  delete(id: string): void {
-    this.donuts = this.donuts.filter(item => item.id !== id);
+
+  delete(id: string) {
+    return this.http
+      .delete<string>(`http://localhost:3000/donuts/${id}`)
+      .pipe(
+        tap(() => this.donuts = this.donuts.filter(item => item.id !== id)),
+        catchError(this.handleError)
+      )
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // client-side
+      console.log('Client error', error.message)
+
+    } else {
+      // server-side
+      console.log('Server error', error.status)
+    }
+    return throwError(() => new Error(error.message))
   }
 }
