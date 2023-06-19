@@ -1,4 +1,4 @@
-<ng-container *ngIf="donuts.length; then data; else nothing"></ng-container>
+<ng-container *ngIf="donuts?.length; then data; else nothing"></ng-container>
 <ng-template #data>
   <app-donut-card
     [ngClass]="{ promo: donut.promo, odd: odd }"

@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { DonutListComponent, DonutSingleComponent } from './containers';
 import { DonutCardComponent, DonutFormComponent } from './components';
-import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../app-routing.module';
 
 @NgModule({
@@ -15,7 +16,8 @@ import { AppRoutingModule } from '../app-routing.module';
   imports: [
     CommonModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   exports: [
     DonutListComponent,

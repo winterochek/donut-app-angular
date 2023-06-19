@@ -1,59 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Donut } from '../models';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DonutService {
-  private donuts: Donut[] = [
-    {
-      id: '1',
-      name: 'Just Chocolate',
-      icon: 'just-chocolate',
-      price: 119,
-      promo: 'limited',
-      description: 'Just a choco.'
-    },
-    {
-      id: '2',
-      name: 'Caramel Swirl',
-      icon: 'caramel-swirl',
-      price: 129,
-      description: 'Chocolate drizzled with caramel.'
-    },
-    {
-      id: '3',
-      name: 'Sour Supreme',
-      icon: 'sour-supreme',
-      price: 119,
-      promo: 'new',
-      description: 'For the sour advocate.'
-    },
-    {
-      id: '4',
-      name: 'Vanilla Sundae',
-      icon: 'vanilla-sundae',
-      price: 119,
-      description: 'Just a choco.'
-    },
-    {
-      id: '5',
-      name: 'Zesty Lemon',
-      icon: 'zesty-lemon',
-      price: 139,
-      description: 'Delicios lucios lemon.'
-    },
+  private donuts: Donut[] = []
+  constructor(private http: HttpClient) { }
 
-  ]
-  constructor() { }
-
-  getAll(): Donut[] {
-    return this.donuts
+  getAll(): Observable<Donut[]> {
+    if (this.donuts.length) return of(this.donuts)
+    return this.http
+      .get<Donut[]>(`http://localhost:3000/donuts`)
+      .pipe(
+        tap(donuts => this.donuts = donuts)
+      )
   }
 
-  getOneById(id: string): Donut | null {
-    const donut = this.donuts.find(item => item.id === id)
-    return donut ?? null
+  getOneById(id: string) {
+    return this.getAll().pipe(
+      map(donuts => {
+        const donut = donuts.find(item => item.id === id);
+        return donut ?? null
+      })
+    )
   }
 
   create(donut: Donut): void {
